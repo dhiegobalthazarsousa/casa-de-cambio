@@ -1,5 +1,11 @@
 import './style.css';
 import Swal from 'sweetalert2';
+/* Swal.fire({
+    title: 'Error!',
+    text: 'Do you want to continue',
+    icon: 'error',
+    confirmButtonText: 'Cool'
+  }) */
 
 const URL_API_MOEDA = 'https://api.exchangerate.host/latest?base=';
 
@@ -7,21 +13,56 @@ const btnElement = document.querySelector("#search");
 const inputElement = document.querySelector("#coin");
 const responseElement = document.querySelector("#response");
 
-const searchCoin = (coin, callback) => {
-    fetch(`${URL_API_MOEDA}${coin}`)
-    .then((response) => response.json())
-    .then((data) => {
-        //console.log(data);
-        callback(data);
-    });
+const searchCoin = (callback) => {
+    const coinSelected = inputElement.value;
+    fetch(`${URL_API_MOEDA}${coinSelected}`)
+        .then((response) => response.json())
+        .then((data) => {
+            //console.log(data);
+            callback(data);
+        })
 };
+
+const getDefault = () => {
+    const coinSelected = inputElement.value;
+    return fetch(`${URL_API_MOEDA}${coinSelected}`)
+        .then((response) => response.json())
+        .then((data) => data);
+};
+
+const validatorKey = () => {
+    let result;
+    getDefault().then((dados) => {
+        result = Object.keys(dados.rates).some((rate) => rate === inputElement.value);
+    });
+    return result;
+};
+
+console.log(validatorKey());
 
 const pesquisarListener = () => {
     btnElement.addEventListener('click', (event) => {
         event.preventDefault();
         responseElement.innerHTML = '';
         const value = inputElement.value;
-        searchCoin(value, generateResult);
+        if (value === ''){
+            Swal.fire({
+                title: 'Ops ...',
+                text: 'Você precisa passar uma moeda',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        } if (validatorKey()){
+            Swal.fire({
+                title: 'Ops ...',
+                text: 'Moeda não existente!',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }) 
+        }
+            searchCoin(generateResult);
+
+            
     });
 }
 
@@ -37,4 +78,5 @@ const generateResult = ({ rates }) => {
 
 window.onload = () => {
     pesquisarListener();
+    validatorKey(' ');
 }
