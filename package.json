@@ -1,0 +1,24 @@
+{
+  "name": "exercise-casa-de-cambio",
+  "version": "1.0.0",
+  "description": "Casa de cambio para treinar fetch e promise",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite --open",
+    "type": "module"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhiegobalthazarsousa/exercise-casa-de-cambio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhiegobalthazarsousa/exercise-casa-de-cambio/issues"
+  },
+  "homepage": "https://github.com/dhiegobalthazarsousa/exercise-casa-de-cambio#readme",
+  "dependencies": {
+    "vite": "^4.1.1"
+  }
+}
