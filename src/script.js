@@ -30,15 +30,12 @@ const getDefault = () => {
         .then((data) => data);
 };
 
-const validatorKey = () => {
-    let result;
-    getDefault().then((dados) => {
-        result = Object.keys(dados.rates).some((rate) => rate === inputElement.value);
+const validatorKey = (valor) => {
+    return getDefault().then((dados) => {
+        const k = Object.keys(dados.rates);
+        return k.some((b) => b === valor)
     });
-    return result;
 };
-
-console.log(validatorKey());
 
 const pesquisarListener = () => {
     btnElement.addEventListener('click', (event) => {
@@ -52,15 +49,18 @@ const pesquisarListener = () => {
                 icon: 'error',
                 confirmButtonText: 'OK'
             })
-        } if (validatorKey()){
+        } 
+        if (validatorKey(value) === false){
             Swal.fire({
                 title: 'Ops ...',
                 text: 'Moeda não existente!',
                 icon: 'error',
                 confirmButtonText: 'OK'
             }) 
-        }
+        } 
+        if (validatorKey(value) === true) {
             searchCoin(generateResult);
+        }
 
             
     });
@@ -78,5 +78,4 @@ const generateResult = ({ rates }) => {
 
 window.onload = () => {
     pesquisarListener();
-    validatorKey(' ');
 }
